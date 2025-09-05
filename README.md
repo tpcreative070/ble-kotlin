@@ -48,7 +48,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:5.0.1'
 }
 ```
-where `$version` is the latest published version in Jitpack [![](https://jitpack.io/v/weliem/blessed-kotlin.svg)](https://jitpack.io/#weliem/blessed-kotlin)
+where `$version` is the latest published version in Jitpack [![](https://jitpack.io/v/tpcreative070/ble-kotlin.svg)](https://jitpack.io/#tpcreative070/ble-kotlin)
 
 <details>
 
