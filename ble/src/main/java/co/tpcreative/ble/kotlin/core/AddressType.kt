@@ -1,4 +1,4 @@
-package com.welie.blessed
+package co.tpcreative.ble.kotlin.core
 
 enum class AddressType {
     /** Address type is public and registered with the IEEE. */

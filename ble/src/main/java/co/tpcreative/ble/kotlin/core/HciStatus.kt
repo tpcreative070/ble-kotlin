@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2025 Martijn van Welie
+ *   Copyright (c) 2025 TPCreative
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
  *   of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  *   SOFTWARE.
  *
  */
-package com.welie.blessed
+package co.tpcreative.ble.kotlin.core
 
 /**
  * This class describes the HCI error codes as defined in the Bluetooth Standard, Volume 1, Part F, 1.3 HCI Error Code, pages 364-377.

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2025 Martijn van Welie
+ *   Copyright (c) 2025 TPCreative
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
  *   of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  *   SOFTWARE.
  *
  */
-package com.welie.blessed
+package co.tpcreative.ble.kotlin.core
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -41,8 +41,8 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.ParcelUuid
-import com.welie.blessed.BluetoothPeripheral.InternalCallback
-import com.welie.blessed.BluetoothPeripheralCallback.NULL
+import co.tpcreative.ble.kotlin.core.BluetoothPeripheral.InternalCallback
+import co.tpcreative.ble.kotlin.core.BluetoothPeripheralCallback.NULL
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
@@ -97,7 +97,7 @@ class BluetoothCentralManager(private val context: Context, private val bluetoot
 
         override fun onScanFailed(errorCode: Int) {
             stopScan()
-            sendScanFailed(ScanFailure.fromValue(errorCode))
+            sendScanFailed(ScanFailure.Companion.fromValue(errorCode))
         }
     }
 
@@ -108,7 +108,7 @@ class BluetoothCentralManager(private val context: Context, private val bluetoot
 
         override fun onScanFailed(errorCode: Int) {
             stopScan()
-            sendScanFailed(ScanFailure.fromValue(errorCode))
+            sendScanFailed(ScanFailure.Companion.fromValue(errorCode))
         }
     }
 
@@ -155,7 +155,7 @@ class BluetoothCentralManager(private val context: Context, private val bluetoot
         }
 
         override fun onScanFailed(errorCode: Int) {
-            val scanFailure = ScanFailure.fromValue(errorCode)
+            val scanFailure = ScanFailure.Companion.fromValue(errorCode)
             Logger.e(TAG, "autoConnect scan failed with error code %d (%s)", errorCode, scanFailure)
             stopAutoconnectScan()
             callBackHandler.post { bluetoothCentralManagerCallback.onScanFailed(scanFailure) }
@@ -691,7 +691,14 @@ class BluetoothCentralManager(private val context: Context, private val bluetoot
         } else if (scannedPeripherals.containsKey(peripheralAddress)) {
             requireNotNull(scannedPeripherals[peripheralAddress])
         } else {
-            val peripheral = BluetoothPeripheral(context, bluetoothAdapter.getRemoteDevice(peripheralAddress), internalCallback, NULL(), callBackHandler, transport)
+            val peripheral = BluetoothPeripheral(
+                context,
+                bluetoothAdapter.getRemoteDevice(peripheralAddress),
+                internalCallback,
+                NULL(),
+                callBackHandler,
+                transport
+            )
             scannedPeripherals[peripheralAddress] = peripheral
             peripheral
         }

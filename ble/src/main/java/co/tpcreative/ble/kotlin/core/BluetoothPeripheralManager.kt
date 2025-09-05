@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2025 Martijn van Welie
+ *   Copyright (c) 2025 TPCreative
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
  *   of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  *   SOFTWARE.
  *
  */
-package com.welie.blessed
+package co.tpcreative.ble.kotlin.core
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -47,13 +47,14 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import com.welie.blessed.AdvertiseError.Companion.fromValue
+import co.tpcreative.ble.kotlin.core.AdvertiseError.Companion.fromValue
 import java.util.Collections
 import java.util.Objects
 import java.util.Queue
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
+import kotlin.collections.iterator
 
 /**
  * This class represent a peripheral running on the local phone
@@ -138,7 +139,7 @@ class BluetoothPeripheralManager(private val context: Context, private val bluet
         }
 
         override fun onServiceAdded(status: Int, service: BluetoothGattService) {
-            mainHandler.post { callback.onServiceAdded(GattStatus.fromValue(status), service) }
+            mainHandler.post { callback.onServiceAdded(GattStatus.Companion.fromValue(status), service) }
             completedCommand()
         }
 
@@ -376,7 +377,7 @@ class BluetoothPeripheralManager(private val context: Context, private val bluet
             val characteristic = requireNotNull(currentNotifyCharacteristic)
             val value = currentNotifyValue
             currentNotifyValue = ByteArray(0)
-            mainHandler.post { callback.onNotificationSent(bluetoothCentral, value, characteristic, GattStatus.fromValue(status)) }
+            mainHandler.post { callback.onNotificationSent(bluetoothCentral, value, characteristic, GattStatus.Companion.fromValue(status)) }
             completedCommand()
         }
 

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2025 Martijn van Welie
+ *   Copyright (c) 2025 TPCreative
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
  *   of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  *   SOFTWARE.
  *
  */
-package com.welie.blessed
+package co.tpcreative.ble.kotlin.core
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
@@ -94,7 +94,7 @@ class BluetoothPeripheral internal constructor(
      *
      * @return the PeripheralType
      */
-    var type: PeripheralType = PeripheralType.fromValue(device.type)
+    var type: PeripheralType = PeripheralType.Companion.fromValue(device.type)
 
     var addressType: AddressType = device.addressType()
 
@@ -119,7 +119,7 @@ class BluetoothPeripheral internal constructor(
             val previousState = state
             state = newState
 
-            val hciStatus = HciStatus.fromValue(status)
+            val hciStatus = HciStatus.Companion.fromValue(status)
             if (hciStatus == HciStatus.SUCCESS) {
                 when (newState) {
                     BluetoothProfile.STATE_CONNECTED -> successfullyConnected()
@@ -140,7 +140,7 @@ class BluetoothPeripheral internal constructor(
         }
 
         override fun onServicesDiscovered(gatt: BluetoothGatt, status: Int) {
-            val gattStatus = GattStatus.fromValue(status)
+            val gattStatus = GattStatus.Companion.fromValue(status)
             if (gattStatus != GattStatus.SUCCESS) {
                 Logger.e(TAG, "service discovery failed due to internal error '%s', disconnecting", gattStatus)
                 disconnect()
@@ -155,7 +155,7 @@ class BluetoothPeripheral internal constructor(
         }
 
         override fun onDescriptorWrite(gatt: BluetoothGatt, descriptor: BluetoothGattDescriptor, status: Int) {
-            val gattStatus = GattStatus.fromValue(status)
+            val gattStatus = GattStatus.Companion.fromValue(status)
             val parentCharacteristic = descriptor.characteristic
             if (gattStatus != GattStatus.SUCCESS) {
                 Logger.e(
@@ -191,7 +191,7 @@ class BluetoothPeripheral internal constructor(
 
         // NOTE the signature of this method is inconsistent with the other callbacks, i.e. position of status
         override fun onDescriptorRead(gatt: BluetoothGatt, descriptor: BluetoothGattDescriptor, status: Int, value: ByteArray) {
-            val gattStatus = GattStatus.fromValue(status)
+            val gattStatus = GattStatus.Companion.fromValue(status)
             if (gattStatus != GattStatus.SUCCESS) {
                 Logger.e(TAG, "reading descriptor <%s> failed for device '%s, status '%s'", descriptor.uuid, address, gattStatus)
             }
@@ -221,7 +221,7 @@ class BluetoothPeripheral internal constructor(
         }
 
         override fun onCharacteristicRead(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic, value: ByteArray, status: Int) {
-            val gattStatus = GattStatus.fromValue(status)
+            val gattStatus = GattStatus.Companion.fromValue(status)
             if (gattStatus != GattStatus.SUCCESS) {
                 Logger.e(TAG, "read failed for characteristic <%s>, status '%s'", characteristic.uuid, gattStatus)
             }
@@ -238,7 +238,7 @@ class BluetoothPeripheral internal constructor(
         }
 
         override fun onCharacteristicWrite(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic, status: Int) {
-            val gattStatus = GattStatus.fromValue(status)
+            val gattStatus = GattStatus.Companion.fromValue(status)
             if (gattStatus != GattStatus.SUCCESS) {
                 Logger.e(TAG, "writing <%s> to characteristic <%s> failed, status '%s'", currentWriteBytes.asHexString(), characteristic.uuid, gattStatus)
             }
@@ -250,7 +250,7 @@ class BluetoothPeripheral internal constructor(
         }
 
         override fun onReadRemoteRssi(gatt: BluetoothGatt, rssi: Int, status: Int) {
-            val gattStatus = GattStatus.fromValue(status)
+            val gattStatus = GattStatus.Companion.fromValue(status)
             if (gattStatus != GattStatus.SUCCESS) {
                 Logger.e(TAG, "reading RSSI failed, status '%s'", gattStatus)
             }
@@ -260,7 +260,7 @@ class BluetoothPeripheral internal constructor(
         }
 
         override fun onMtuChanged(gatt: BluetoothGatt, mtu: Int, status: Int) {
-            val gattStatus = GattStatus.fromValue(status)
+            val gattStatus = GattStatus.Companion.fromValue(status)
             if (gattStatus != GattStatus.SUCCESS) {
                 Logger.e(TAG, "change MTU failed, status '%s'", gattStatus)
             }
@@ -276,24 +276,24 @@ class BluetoothPeripheral internal constructor(
         }
 
         override fun onPhyRead(gatt: BluetoothGatt, txPhy: Int, rxPhy: Int, status: Int) {
-            val gattStatus = GattStatus.fromValue(status)
+            val gattStatus = GattStatus.Companion.fromValue(status)
             if (gattStatus != GattStatus.SUCCESS) {
                 Logger.e(TAG, "read Phy failed, status '%s'", gattStatus)
             } else {
-                Logger.i(TAG, "updated Phy: tx = %s, rx = %s", PhyType.fromValue(txPhy), PhyType.fromValue(rxPhy))
+                Logger.i(TAG, "updated Phy: tx = %s, rx = %s", PhyType.Companion.fromValue(txPhy), PhyType.Companion.fromValue(rxPhy))
             }
-            callbackHandler.post { peripheralCallback.onPhyUpdate(this@BluetoothPeripheral, PhyType.fromValue(txPhy), PhyType.fromValue(rxPhy), gattStatus) }
+            callbackHandler.post { peripheralCallback.onPhyUpdate(this@BluetoothPeripheral, PhyType.Companion.fromValue(txPhy), PhyType.Companion.fromValue(rxPhy), gattStatus) }
             completedCommand()
         }
 
         override fun onPhyUpdate(gatt: BluetoothGatt, txPhy: Int, rxPhy: Int, status: Int) {
-            val gattStatus = GattStatus.fromValue(status)
+            val gattStatus = GattStatus.Companion.fromValue(status)
             if (gattStatus != GattStatus.SUCCESS) {
                 Logger.e(TAG, "update Phy failed, status '%s'", gattStatus)
             } else {
-                Logger.i(TAG, "updated Phy: tx = %s, rx = %s", PhyType.fromValue(txPhy), PhyType.fromValue(rxPhy))
+                Logger.i(TAG, "updated Phy: tx = %s, rx = %s", PhyType.Companion.fromValue(txPhy), PhyType.Companion.fromValue(rxPhy))
             }
-            callbackHandler.post { peripheralCallback.onPhyUpdate(this@BluetoothPeripheral, PhyType.fromValue(txPhy), PhyType.fromValue(rxPhy), gattStatus) }
+            callbackHandler.post { peripheralCallback.onPhyUpdate(this@BluetoothPeripheral, PhyType.Companion.fromValue(txPhy), PhyType.Companion.fromValue(rxPhy), gattStatus) }
 
             // Only complete the command if we initiated the operation. It can also be initiated by the remote peripheral...
             if (currentCommand == SET_PHY_TYPE_COMMAND) {
@@ -307,7 +307,7 @@ class BluetoothPeripheral internal constructor(
          */
         fun onConnectionUpdated(gatt: BluetoothGatt, interval: Int, latency: Int, timeout: Int, status: Int) {
             if (gatt != bluetoothGatt) return
-            val gattStatus = GattStatus.fromValue(status)
+            val gattStatus = GattStatus.Companion.fromValue(status)
             if (gattStatus == GattStatus.SUCCESS) {
                 val msg = String.format(Locale.ENGLISH, "connection parameters: interval=%.1fms latency=%d timeout=%ds", interval * 1.25f, latency, timeout / 100)
                 Logger.d(TAG, msg)
@@ -329,7 +329,7 @@ class BluetoothPeripheral internal constructor(
     }
 
     private fun successfullyConnected() {
-        type = PeripheralType.fromValue(device.type)
+        type = PeripheralType.Companion.fromValue(device.type)
         val timePassed = SystemClock.elapsedRealtime() - connectTimestamp
         Logger.i(TAG, "connected to '%s' (%s) in %.1fs", name, bondState, timePassed / 1000.0f)
 
@@ -780,7 +780,7 @@ class BluetoothPeripheral internal constructor(
      * @return the bond state
      */
     val bondState: BondState
-        get() = BondState.fromValue(device.bondState)
+        get() = BondState.Companion.fromValue(device.bondState)
 
     /**
      * Get the services supported by the connected bluetooth peripheral.
@@ -818,7 +818,7 @@ class BluetoothPeripheral internal constructor(
      * @return the connection state.
      */
     fun getState(): ConnectionState {
-        return ConnectionState.fromValue(state)
+        return ConnectionState.Companion.fromValue(state)
     }
 
     /**

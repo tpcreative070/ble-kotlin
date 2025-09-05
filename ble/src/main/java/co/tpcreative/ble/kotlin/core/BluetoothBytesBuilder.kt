@@ -1,4 +1,4 @@
-package com.welie.blessed
+package co.tpcreative.ble.kotlin.core
 
 import java.nio.ByteOrder
 

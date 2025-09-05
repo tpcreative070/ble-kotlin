@@ -1,4 +1,4 @@
-package com.welie.blessed
+package co.tpcreative.ble.kotlin.core
 
 
 import java.nio.ByteOrder
@@ -8,6 +8,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.GregorianCalendar
 import java.util.UUID
+import kotlin.collections.iterator
 import kotlin.math.pow
 
 fun Byte.asHexString(): String {
