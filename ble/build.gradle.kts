@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id("maven-publish")
 }
 
 android {
@@ -44,4 +45,23 @@ dependencies {
     testImplementation(libs.robolectric)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                groupId = "com.github.tpcreative070"
+                artifactId = "ble-kotlin"
+                version = "1.0.0"
+                pom {
+                    name.set("Android library for Storage system")
+                    description.set("Useful library to help Android developers to work with Files in Android 10 and higher version")
+                }
+                afterEvaluate {
+                    from(components["release"])
+                }
+            }
+        }
+    }
 }
