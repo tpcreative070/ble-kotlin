@@ -3,7 +3,6 @@
 [![Android Build](https://github.com/weliem/blessed-kotlin/actions/workflows/build.yml/badge.svg)](https://github.com/weliem/blessed-kotlin/actions/workflows/build.yml)
 
 # News
-This library is a port of [blessed-android](https://github.com/weliem/blessed-android) and written in 100% Kotlin.
 
 There are also some new additions:
 * Refactored BluetoothBytesParser and new BluethoothBytesBuilder classes
