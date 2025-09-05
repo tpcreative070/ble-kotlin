@@ -1,4 +1,8 @@
 
+[![](https://jitpack.io/v/tpcreative070/ble-kotlin.svg)](https://jitpack.io/#tpcreative070/ble-kotlin)
+[![Downloads](https://jitpack.io/v/tpcreative070/ble-kotlin/month.svg)](https://jitpack.io/#tpcreative070/ble-kotlin)
+[![Android Build](https://github.com/tpcreative070/ble-kotlin/actions/workflows/build.yml/badge.svg)](https://github.com/tpcreative070/ble-kotlin/actions/workflows/build.yml)
+
 # News
 
 There are also some new additions:
