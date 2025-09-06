@@ -13,7 +13,7 @@ There are also some new additions:
 
 ## Introduction
 
-BLESSED is a very compact Bluetooth Low Energy (BLE) library for Android 9 and higher, that makes working with BLE on Android very easy. It takes care of many aspects of working with BLE you would normally have to take care of yourself like:
+BLE is a very compact Bluetooth Low Energy (BLE) library for Android 9 and higher, that makes working with BLE on Android very easy. It takes care of many aspects of working with BLE you would normally have to take care of yourself like:
 
 * *Queueing commands*, so you can don't have to wait anymore for the completion of a command before issueing the next command
 * *Bonding correctly*, so you don't have to do anything in order to robustly bond devices
@@ -33,7 +33,7 @@ The `BluetoothPeripheralManager` class is used to create your own peripheral run
 
 The `BluetoothBytesParser` class is a utility class that makes parsing byte arrays easy. There is also a `BluetoothBytesBuilder` class that you can also use to construct your own byte arrays by adding integers, floats or strings.
 
-The BLESSED library was inspired by CoreBluetooth on iOS and provides the same level of abstraction, but at the same time it also stays true to Android by keeping most methods the same and allowing you to work with the standard classes for Services, Characteristics and Descriptors. If you already have developed using CoreBluetooth you can very easily port your code to Android using this library.
+The BLE library was inspired by CoreBluetooth on iOS and provides the same level of abstraction, but at the same time it also stays true to Android by keeping most methods the same and allowing you to work with the standard classes for Services, Characteristics and Descriptors. If you already have developed using CoreBluetooth you can very easily port your code to Android using this library.
 
 ## Installation
 
@@ -128,7 +128,7 @@ fun autoConnectBatch(batch: Map<BluetoothPeripheral, BluetoothPeripheralCallback
 
 The method `connectPeripheral` will try to immediately connect to a device that has already been found using a scan. This method will time out after 30 seconds or less depending on the device manufacturer. Note that there can be **only 1 outstanding** `connectPeripheral`. So if it is called multiple times only 1 will succeed.
 
-The method `autoConnectPeripheral` is for re-connecting to known devices for which you already know the device's mac address. The BLE stack will automatically connect to the device when it sees it in its internal scan. Therefore, it may take longer to connect to a device but this call will never time out! So you can issue the autoConnect command and the device will be connected whenever it is found. This call will **also work** when the device is not cached by the Android stack, as BLESSED takes care of it! In contrary to `connectPeripheral`, there can be multiple outstanding `autoConnectPeripheral` requests.
+The method `autoConnectPeripheral` is for re-connecting to known devices for which you already know the device's mac address. The BLE stack will automatically connect to the device when it sees it in its internal scan. Therefore, it may take longer to connect to a device but this call will never time out! So you can issue the autoConnect command and the device will be connected whenever it is found. This call will **also work** when the device is not cached by the Android stack, as BLE takes care of it! In contrary to `connectPeripheral`, there can be multiple outstanding `autoConnectPeripheral` requests.
 
 The method `autoConnectPeripheralsBatch` is for re-connecting to multiple peripherals in one go. Since the normal `autoConnectPeripheral` may involve scanning, if peripherals are uncached, it is not suitable for calling very fast after each other, since it may trigger scanner limitations of Android. So use `autoConnectPeripheralsBatch` if the want to re-connect to many known peripherals.
 
@@ -152,7 +152,7 @@ In all cases, you will get a callback on `onDisconnectedPeripheral` when the dis
 
 ## Service discovery
 
-The BLESSED library will automatically do the service discovery for you and once it is completed you will receive the following callback:
+The BLE library will automatically do the service discovery for you and once it is completed you will receive the following callback:
 
 ```kotlin
 fun onServicesDiscovered(peripheral: BluetoothPeripheral)
@@ -186,7 +186,7 @@ fun onCharacteristicWrite(peripheral: BluetoothPeripheral, value: ByteArray, cha
 
 ## Turning notifications on/off
 
-BLESSED provides a convenience methods `startNotify` and `stopNotify` to turn notifications/indications on or off. It will perform all the necessary operations like writing to the Client Characteristic Configuration descriptor for you. So all you need to do is:
+BLE provides a convenience methods `startNotify` and `stopNotify` to turn notifications/indications on or off. It will perform all the necessary operations like writing to the Client Characteristic Configuration descriptor for you. So all you need to do is:
 
 ```kotlin
 val currentTimeCharacteristic = peripheral.getCharacteristic(CTS_SERVICE_UUID, CURRENT_TIME_CHARACTERISTIC_UUID)?.let {
@@ -218,7 +218,7 @@ fun onCharacteristicUpdate(peripheral: BluetoothPeripheral, value: ByteArray, ch
 ```
 
 ## Bonding
-BLESSED handles bonding for you and will make sure all bonding variants work smoothly. During the process of bonding, you will be informed of the process via a number of callbacks:
+BLE handles bonding for you and will make sure all bonding variants work smoothly. During the process of bonding, you will be informed of the process via a number of callbacks:
 
 ```kotlin
 fun onBondingStarted(peripheral: BluetoothPeripheral)
@@ -232,7 +232,7 @@ In most cases, the peripheral will initiate bonding either at the time of connec
 
 It is also possible to remove a bond by calling `removeBond`. Note that this method uses a hidden Android API and may stop working in the future. When calling the `removeBond` method, the peripheral will also disappear from the settings menu on the phone.
 
-Lastly, it is also possible to automatically issue a PIN code when pairing. Use the method `setPinCodeForPeripheral` to register a 6 digit PIN code. Once bonding starts, BLESSED will automatically issue the PIN code and the UI dialog to enter the PIN code will not appear anymore.
+Lastly, it is also possible to automatically issue a PIN code when pairing. Use the method `setPinCodeForPeripheral` to register a 6 digit PIN code. Once bonding starts, BLE will automatically issue the PIN code and the UI dialog to enter the PIN code will not appear anymore.
 
 ## Requesting a higher MTU to increase throughput
 The default MTU is 23 bytes, which allows you to send and receive byte arrays of MTU - 3 = 20 bytes at a time. The 3 bytes overhead are used by the ATT packet. If your peripheral supports a higher MTU, you can request that by calling:
